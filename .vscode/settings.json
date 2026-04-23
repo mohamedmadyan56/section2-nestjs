@@ -1,0 +1,21 @@
+{
+  "eslint.enable": false,
+  "typescript.validate.enable": false,
+  "javascript.validate.enable": false,
+  "editor.quickSuggestions": {
+    "comments": "off",
+    "strings": "off",
+    "other": "off"
+  },
+  "editor.suggestOnTriggerCharacters": false,
+  "editor.inlineSuggest.enabled": false,
+  "editor.parameterHints.enabled": false,
+  "editor.wordBasedSuggestions": "off",
+  "editor.tabCompletion": "off",
+  "editor.snippetSuggestions": "none",
+  "editor.acceptSuggestionOnEnter": "off",
+  "typescript.suggest.autoImports": false,
+  "typescript.suggest.completeFunctionCalls": false,
+  "javascript.suggest.autoImports": false,
+  "javascript.suggest.completeFunctionCalls": false
+}
