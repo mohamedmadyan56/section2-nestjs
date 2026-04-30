@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NestJS Fundamentals Project Explanation</title>
+  <style>
+    :root {
+      --bg: #f7f4ec;
+      --paper: #fffdf8;
+      --ink: #1f2937;
+      --muted: #5b6470;
+      --accent: #0f766e;
+      --border: #d9d3c4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "DejaVu Sans", "Noto Sans Arabic", Arial, sans-serif;
+      background: linear-gradient(180deg, #efe9db 0%, var(--bg) 100%);
+      color: var(--ink);
+      line-height: 1.7;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 32px auto;
+      background: var(--paper);
+      border: 1px solid var(--border);
+      padding: 40px;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      color: #102a43;
+    }
+
+    h1 {
+      font-size: 30px;
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-top: 28px;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    p, li {
+      font-size: 15px;
+    }
+
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .ar {
+      direction: rtl;
+      text-align: right;
+    }
+
+    .en {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--accent);
+      background: #fcfbf7;
+      padding: 16px 18px;
+      margin: 14px 0;
+    }
+
+    code {
+      background: #f0ede4;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: "DejaVu Sans Mono", monospace;
+      font-size: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #efe8d8;
+    }
+
+    ul {
+      margin: 8px 0 8px 22px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>NestJS Fundamentals Project Explanation<br />شرح مشروع NestJS Fundamentals</h1>
+
+    <div class="section ar">
+      <h2>1. الفكرة العامة للمشروع</h2>
+      <p>
+        هذا المشروع عبارة عن تطبيق <code>NestJS</code> بسيط جدًا لتعلّم أساسيات بناء
+        <code>REST API</code>. الهدف الأساسي منه هو إدارة بيانات المستخدمين
+        <code>Users</code> من خلال مجموعة endpoints مثل:
+        <code>Create</code>, <code>Get All</code>, <code>Get One</code>,
+        <code>Update</code>, <code>Delete</code>.
+      </p>
+      <p>
+        المشروع لا يستخدم قاعدة بيانات حاليًا. بدلًا من ذلك، يتم حفظ البيانات داخل
+        مصفوفة في الذاكرة اسمها <code>users</code> داخل
+        <code>UserController</code>. هذا يعني أن أي بيانات يتم إضافتها ستضيع بمجرد
+        إعادة تشغيل السيرفر.
+      </p>
+    </div>
+
+    <div class="section en">
+      <h2>1. Project Overview</h2>
+      <p>
+        This is a very small <code>NestJS</code> project built to learn the basics
+        of a <code>REST API</code>. Its main purpose is handling user data through
+        endpoints such as <code>Create</code>, <code>Get All</code>,
+        <code>Get One</code>, <code>Update</code>, and <code>Delete</code>.
+      </p>
+      <p>
+        The project does not use a database yet. Instead, data is stored in an
+        in-memory array called <code>users</code> inside
+        <code>UserController</code>. That means all data is lost whenever the server
+        restarts.
+      </p>
+    </div>
+
+    <div class="section ar">
+      <h2>2. الهيكل الأساسي للمشروع</h2>
+      <table>
+        <tr>
+          <th>الملف</th>
+          <th>وظيفته</th>
+        </tr>
+        <tr>
+          <td><code>src/main.ts</code></td>
+          <td>نقطة تشغيل التطبيق. يبدأ السيرفر ويشغل <code>AppModule</code>.</td>
+        </tr>
+        <tr>
+          <td><code>src/app.module.ts</code></td>
+          <td>الموديول الرئيسي للتطبيق ويقوم بضم <code>UserModule</code>.</td>
+        </tr>
+        <tr>
+          <td><code>src/user/user.module.ts</code></td>
+          <td>الموديول الخاص بجزء المستخدمين، ويسجل <code>UserController</code>.</td>
+        </tr>
+        <tr>
+          <td><code>src/user/user.controller.ts</code></td>
+          <td>هنا يوجد المنطق الأساسي والـ routes الخاصة بالمستخدمين.</td>
+        </tr>
+        <tr>
+          <td><code>src/user/user.entity.ts</code></td>
+          <td>تعريف شكل كائن المستخدم داخل النظام.</td>
+        </tr>
+        <tr>
+          <td><code>src/user/dtos/create-user.dto.ts</code></td>
+          <td>تعريف البيانات المطلوبة عند إنشاء مستخدم جديد.</td>
+        </tr>
+        <tr>
+          <td><code>src/user/dtos/update-user.dto.ts</code></td>
+          <td>تعريف البيانات المسموح تعديلها، وكلها اختيارية بسبب <code>PartialType</code>.</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="section en">
+      <h2>2. Core Structure</h2>
+      <table>
+        <tr>
+          <th>File</th>
+          <th>Purpose</th>
+        </tr>
+        <tr>
+          <td><code>src/main.ts</code></td>
+          <td>The application entry point. It boots the server and loads <code>AppModule</code>.</td>
+        </tr>
+        <tr>
+          <td><code>src/app.module.ts</code></td>
+          <td>The root module of the application. It imports <code>UserModule</code>.</td>
+        </tr>
+        <tr>
+          <td><code>src/user/user.module.ts</code></td>
+          <td>The user feature module. It registers <code>UserController</code>.</td>
+        </tr>
+        <tr>
+          <td><code>src/user/user.controller.ts</code></td>
+          <td>This file contains the main user routes and business logic.</td>
+        </tr>
+        <tr>
+          <td><code>src/user/user.entity.ts</code></td>
+          <td>Defines the shape of a user object in the app.</td>
+        </tr>
+        <tr>
+          <td><code>src/user/dtos/create-user.dto.ts</code></td>
+          <td>Defines the required data when creating a new user.</td>
+        </tr>
+        <tr>
+          <td><code>src/user/dtos/update-user.dto.ts</code></td>
+          <td>Defines the updatable fields, all optional because of <code>PartialType</code>.</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="section ar">
+      <h2>3. كيف يبدأ التطبيق؟</h2>
+      <div class="card">
+        في <code>main.ts</code> يتم إنشاء تطبيق Nest باستخدام
+        <code>NestFactory.create(AppModule)</code> ثم الاستماع على البورت
+        <code>3000</code> أو قيمة <code>PORT</code> من البيئة.
+      </div>
+      <div class="card">
+        في <code>app.module.ts</code> يتم استيراد <code>UserModule</code>.
+        هذا يعني أن كل routes الموجودة في جزء المستخدمين أصبحت جزءًا من التطبيق.
+      </div>
+      <div class="card">
+        في <code>user.module.ts</code> يتم تسجيل <code>UserController</code>.
+        وبالتالي Nest يعرف أن requests الخاصة بـ <code>/users</code> ستذهب لهذا الـ controller.
+      </div>
+    </div>
+
+    <div class="section en">
+      <h2>3. How the App Starts</h2>
+      <div class="card">
+        In <code>main.ts</code>, Nest creates the application with
+        <code>NestFactory.create(AppModule)</code> and starts listening on
+        port <code>3000</code> or <code>process.env.PORT</code>.
+      </div>
+      <div class="card">
+        In <code>app.module.ts</code>, the root module imports
+        <code>UserModule</code>, which makes user routes available in the app.
+      </div>
+      <div class="card">
+        In <code>user.module.ts</code>, <code>UserController</code> is registered,
+        so Nest knows where to send requests that target <code>/users</code>.
+      </div>
+    </div>
+
+    <div class="section ar">
+      <h2>4. أصل الـ Route داخل UserController</h2>
+      <p>
+        السطر <code>@Controller('users')</code> يعني أن هذا الـ controller مسؤول عن
+        كل المسارات التي تبدأ بـ <code>/users</code>.
+      </p>
+      <p>
+        أمثلة:
+      </p>
+      <ul>
+        <li><code>@Get()</code> يصبح <code>GET /users</code></li>
+        <li><code>@Get(':id')</code> يصبح <code>GET /users/:id</code></li>
+        <li><code>@Post()</code> يصبح <code>POST /users</code></li>
+        <li><code>@Delete(':id')</code> يصبح <code>DELETE /users/:id</code></li>
+      </ul>
+    </div>
+
+    <div class="section en">
+      <h2>4. Route Base in UserController</h2>
+      <p>
+        The line <code>@Controller('users')</code> means this controller handles
+        every route that starts with <code>/users</code>.
+      </p>
+      <ul>
+        <li><code>@Get()</code> becomes <code>GET /users</code></li>
+        <li><code>@Get(':id')</code> becomes <code>GET /users/:id</code></li>
+        <li><code>@Post()</code> becomes <code>POST /users</code></li>
+        <li><code>@Delete(':id')</code> becomes <code>DELETE /users/:id</code></li>
+      </ul>
+    </div>
+
+    <div class="section ar">
+      <h2>5. شرح الـ Entity والـ DTOs</h2>
+      <h3>5.1 UserEntity</h3>
+      <p>
+        ملف <code>user.entity.ts</code> يحدد شكل المستخدم داخل النظام:
+        <code>id</code>, <code>username</code>, <code>email</code>,
+        <code>country</code>.
+      </p>
+      <h3>5.2 CreateUserDto</h3>
+      <p>
+        هذا الملف يحدد البيانات المطلوبة لإنشاء مستخدم جديد. عند عمل
+        <code>POST /users</code> يجب إرسال:
+        <code>username</code>, <code>email</code>, <code>country</code>.
+      </p>
+      <h3>5.3 UpdateUserDto</h3>
+      <p>
+        هذا الـ DTO يستخدم <code>PartialType(CreateUserDto)</code>، وده معناه أن
+        نفس الحقول الموجودة في <code>CreateUserDto</code> تصبح اختيارية في التحديث.
+      </p>
+    </div>
+
+    <div class="section en">
+      <h2>5. Entity and DTOs</h2>
+      <h3>5.1 UserEntity</h3>
+      <p>
+        <code>user.entity.ts</code> defines the internal user shape:
+        <code>id</code>, <code>username</code>, <code>email</code>,
+        <code>country</code>.
+      </p>
+      <h3>5.2 CreateUserDto</h3>
+      <p>
+        This file defines the required data to create a user. A
+        <code>POST /users</code> request should send:
+        <code>username</code>, <code>email</code>, and <code>country</code>.
+      </p>
+      <h3>5.3 UpdateUserDto</h3>
+      <p>
+        This DTO extends <code>PartialType(CreateUserDto)</code>, meaning the same
+        fields from <code>CreateUserDto</code> are reused but become optional for updates.
+      </p>
+    </div>
+
+    <div class="section ar">
+      <h2>6. شرح العمليات الأساسية</h2>
+      <h3>6.1 Get All Users</h3>
+      <div class="card">
+        <p><strong>Route:</strong> <code>GET /users</code></p>
+        <p>
+          الميثود <code>find()</code> ترجع المصفوفة <code>this.users</code> كما هي.
+          إذا لم يتم إنشاء أي مستخدمين فسترجع مصفوفة فارغة.
+        </p>
+        <p><strong>الفكرة:</strong> قراءة كل المستخدمين الموجودين حاليًا في الذاكرة.</p>
+      </div>
+
+      <h3>6.2 Get One User</h3>
+      <div class="card">
+        <p><strong>Route:</strong> <code>GET /users/:id</code></p>
+        <p>
+          الميثود <code>findOne(id)</code> تبحث داخل المصفوفة عن مستخدم يحمل نفس
+          الـ <code>id</code> باستخدام <code>find()</code>.
+        </p>
+        <p>
+          إذا وجد المستخدم فسيتم إرجاعه. وإذا لم يوجد فستكون النتيجة
+          <code>undefined</code>.
+        </p>
+      </div>
+
+      <h3>6.3 Create User</h3>
+      <div class="card">
+        <p><strong>Route:</strong> <code>POST /users</code></p>
+        <p>
+          الميثود <code>create()</code> تستقبل body من النوع
+          <code>CreateUserDto</code>، ثم تنشئ كائن مستخدم جديد وتضيف له
+          <code>id</code> بواسطة <code>uuid()</code>.
+        </p>
+        <p>
+          بعد ذلك يتم تنفيذ <code>this.users.push(newUser)</code> لحفظ المستخدم في
+          المصفوفة، ثم يتم إرجاع المستخدم الجديد.
+        </p>
+      </div>
+
+      <h3>6.4 Delete User</h3>
+      <div class="card">
+        <p><strong>Route:</strong> <code>DELETE /users/:id</code></p>
+        <p>
+          الميثود <code>remove(id)</code> تستخدم <code>filter()</code> للاحتفاظ
+          بكل المستخدمين ما عدا المستخدم الذي يحمل نفس الـ <code>id</code>.
+        </p>
+        <p>
+          تمت إضافة <code>@HttpCode(HttpStatus.NO_CONTENT)</code> لذلك الاستجابة تكون
+          بحالة <code>204</code> بدون body.
+        </p>
+      </div>
+    </div>
+
+    <div class="section en">
+      <h2>6. Main Operations</h2>
+      <h3>6.1 Get All Users</h3>
+      <div class="card">
+        <p><strong>Route:</strong> <code>GET /users</code></p>
+        <p>
+          The <code>find()</code> method returns the <code>this.users</code> array
+          as-is. If no users have been created, it returns an empty array.
+        </p>
+        <p><strong>Idea:</strong> read all currently stored users from memory.</p>
+      </div>
+
+      <h3>6.2 Get One User</h3>
+      <div class="card">
+        <p><strong>Route:</strong> <code>GET /users/:id</code></p>
+        <p>
+          The <code>findOne(id)</code> method searches the array using
+          <code>find()</code> for a matching user <code>id</code>.
+        </p>
+        <p>
+          If a user is found, it is returned. Otherwise, the method returns
+          <code>undefined</code>.
+        </p>
+      </div>
+
+      <h3>6.3 Create User</h3>
+      <div class="card">
+        <p><strong>Route:</strong> <code>POST /users</code></p>
+        <p>
+          The <code>create()</code> method receives a body of type
+          <code>CreateUserDto</code>, then builds a new user object and adds an
+          <code>id</code> using <code>uuid()</code>.
+        </p>
+        <p>
+          After that, it stores the user with <code>this.users.push(newUser)</code>
+          and returns the newly created user.
+        </p>
+      </div>
+
+      <h3>6.4 Delete User</h3>
+      <div class="card">
+        <p><strong>Route:</strong> <code>DELETE /users/:id</code></p>
+        <p>
+          The <code>remove(id)</code> method uses <code>filter()</code> to keep all
+          users except the one whose <code>id</code> matches the route parameter.
+        </p>
+        <p>
+          Because of <code>@HttpCode(HttpStatus.NO_CONTENT)</code>, the response status
+          is <code>204</code> with no response body.
+        </p>
+      </div>
+    </div>
+
+    <div class="section ar">
+      <h2>7. الـ Logic الداخلي للمشروع</h2>
+      <ul>
+        <li>المشروع يعتمد على Controller واحد فقط لتنفيذ المنطق.</li>
+        <li>لا يوجد Service layer حاليًا، لذلك كل business logic موجود داخل <code>UserController</code>.</li>
+        <li>لا يوجد Database أو Repository.</li>
+        <li>توليد الـ <code>id</code> يتم باستخدام مكتبة <code>uuid</code>.</li>
+        <li>مصدر البيانات الوحيد هو المصفوفة <code>private users: UserEntity[] = []</code>.</li>
+      </ul>
+      <div class="card">
+        هذه البنية مناسبة للتعلم والبداية، لكنها ليست الأفضل لمشروع حقيقي لأن الـ controller
+        أصبح مسؤولًا عن أكثر من مهمة: استقبال الطلبات، وتنفيذ المنطق، وإدارة البيانات.
+      </div>
+    </div>
+
+    <div class="section en">
+      <h2>7. Internal Logic</h2>
+      <ul>
+        <li>The project currently depends on a single controller for most behavior.</li>
+        <li>There is no service layer yet, so business logic lives inside <code>UserController</code>.</li>
+        <li>There is no database and no repository layer.</li>
+        <li>User IDs are generated with the <code>uuid</code> package.</li>
+        <li>The only data source is <code>private users: UserEntity[] = []</code>.</li>
+      </ul>
+      <div class="card">
+        This structure is fine for learning, but it is not ideal for a real project because
+        the controller is handling request routing, logic, and data management together.
+      </div>
+    </div>
+
+    <div class="section ar">
+      <h2>8. ملاحظات مهمة على الكود الحالي</h2>
+      <ul>
+        <li>لا يوجد Validation للـ body مثل التأكد من صحة البريد الإلكتروني أو وجود الحقول.</li>
+        <li>إذا تم طلب مستخدم غير موجود في <code>GET /users/:id</code> فالنتيجة ستكون <code>undefined</code> بدل <code>404</code>.</li>
+        <li>في <code>PATCH</code> إذا كان الـ <code>id</code> غير موجود قد يحدث سلوك غير آمن لأن الكود لا يتحقق من <code>findIndex()</code>.</li>
+        <li>في <code>DELETE</code> لا يوجد تأكيد إن كان المستخدم موجودًا قبل الحذف.</li>
+        <li>البيانات تضيع بعد إعادة تشغيل التطبيق لأنها محفوظة في الذاكرة فقط.</li>
+      </ul>
+    </div>
+
+    <div class="section en">
+      <h2>8. Important Notes About the Current Code</h2>
+      <ul>
+        <li>There is no request validation yet, such as checking email format or required fields.</li>
+        <li>If a user is missing in <code>GET /users/:id</code>, the method returns <code>undefined</code> instead of a <code>404</code>.</li>
+        <li>In <code>PATCH</code>, if the ID does not exist, the current <code>findIndex()</code> flow is unsafe because it is not checked.</li>
+        <li>In <code>DELETE</code>, there is no confirmation that the user existed before deletion.</li>
+        <li>All data disappears after a server restart because it is stored only in memory.</li>
+      </ul>
+    </div>
+
+    <div class="section ar">
+      <h2>9. أمثلة سريعة للطلبات</h2>
+      <div class="card">
+        <p><strong>Create</strong></p>
+        <p><code>POST /users</code></p>
+        <p><code>{ "username": "Ali", "email": "ali@mail.com", "country": "Egypt" }</code></p>
+      </div>
+      <div class="card">
+        <p><strong>Get All</strong></p>
+        <p><code>GET /users</code></p>
+      </div>
+      <div class="card">
+        <p><strong>Get One</strong></p>
+        <p><code>GET /users/USER_ID</code></p>
+      </div>
+      <div class="card">
+        <p><strong>Delete</strong></p>
+        <p><code>DELETE /users/USER_ID</code></p>
+      </div>
+    </div>
+
+    <div class="section en">
+      <h2>9. Quick Request Examples</h2>
+      <div class="card">
+        <p><strong>Create</strong></p>
+        <p><code>POST /users</code></p>
+        <p><code>{ "username": "Ali", "email": "ali@mail.com", "country": "Egypt" }</code></p>
+      </div>
+      <div class="card">
+        <p><strong>Get All</strong></p>
+        <p><code>GET /users</code></p>
+      </div>
+      <div class="card">
+        <p><strong>Get One</strong></p>
+        <p><code>GET /users/USER_ID</code></p>
+      </div>
+      <div class="card">
+        <p><strong>Delete</strong></p>
+        <p><code>DELETE /users/USER_ID</code></p>
+      </div>
+    </div>
+
+    <div class="section ar">
+      <h2>10. الخلاصة</h2>
+      <p>
+        هذا المشروع ممتاز كبداية لفهم NestJS لأنك ترى بوضوح كيف يبدأ التطبيق، وكيف يتم
+        تسجيل الـ module، وكيف يربط الـ controller بين الـ routes والمنطق. الجزء الأهم
+        هنا هو أن كل شيء بسيط ومباشر، لذلك هو مناسب للتعلم قبل الانتقال إلى
+        <code>Service</code>, <code>Validation</code>, و<code>Database</code>.
+      </p>
+    </div>
+
+    <div class="section en">
+      <h2>10. Summary</h2>
+      <p>
+        This project is a good starting point for learning NestJS because it clearly
+        shows how the app starts, how modules are registered, and how a controller
+        connects routes to logic. Its simplicity makes it useful for learning before
+        moving to <code>Service</code>, <code>Validation</code>, and
+        <code>Database</code> layers.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
