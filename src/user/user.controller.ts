@@ -3,6 +3,8 @@ import {CreateUserDto} from './dtos/create-user.dto'
 import {UpdateUserDto} from './dtos/update-user.dto'
 import {UserEntity} from './user.entity'
 import {v4 as uuid} from 'uuid'
+import {ParseIntPipe,ParseUUIDPipe,ValidationPipe,UsePipes,Query} from '@nestjs/common'
+import { CustomValidationPipe } from './pipes/validation.pipe';
 @Controller('users')
 //محتاج اعرف هنا route 
 export class UserController {
@@ -12,13 +14,14 @@ private  users:UserEntity[] = [];
 
 
     @Get()  
-find(): UserEntity[]{
+find(@Query("username",CustomValidationPipe) username:string,): UserEntity[]{
     return this.users;
 
 }
 
 @Get(":id")
-findOne(@Param("id") id:string):UserEntity | undefined {
+findOne(@Param("id",ParseUUIDPipe) id:string):UserEntity | undefined {
+    console.log(typeof id);
     const user:UserEntity | undefined= this.users.find((user)=>user.id==id);
     return user;
 }
@@ -26,11 +29,10 @@ findOne(@Param("id") id:string):UserEntity | undefined {
 
 
 
-
 @Post()
-create(@Body() CreateUserDto:CreateUserDto){
+create(@Body(new ValidationPipe()) createUserDto:CreateUserDto){
     const newUser:UserEntity = {
-        ...CreateUserDto,
+        ...createUserDto,
         id:uuid(),
     }
     this.users.push(newUser)
@@ -38,7 +40,7 @@ create(@Body() CreateUserDto:CreateUserDto){
 }
 
 @Patch(":id")
-update(@Param("id") id:string ,@Body() updateUserDto:UpdateUserDto){
+update(@Param("id",ParseUUIDPipe) id:string ,@Body(new ValidationPipe()) updateUserDto:UpdateUserDto){
     const index = this.users.findIndex((user)=>user.id===id);
         this.users[index]={
             ...this.users[index],
@@ -49,7 +51,7 @@ update(@Param("id") id:string ,@Body() updateUserDto:UpdateUserDto){
 
 @Delete(':id')
 @HttpCode(HttpStatus.NO_CONTENT)
-remove(@Param('id') id: string) {
+remove(@Param('id',ParseUUIDPipe) id: string) {
     this.users = this.users.filter((user) => user.id !== id);
 }
 
